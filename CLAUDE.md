@@ -125,6 +125,7 @@ Enabled via `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` in settings.json.
 ## Skills
 
 Personal skills in `~/.claude/skills/`:
+- `changelog` — generate changelogs from git history (tags, branches, date ranges)
 - `codex` — second AI opinion via OpenAI Codex CLI for subtle bugs, code review, algorithm analysis
 - `humanizer` — remove AI writing patterns, make text sound natural
 - `instruqt-challenge` — Teleport lab tracks, challenge setup scripts, assignment.md files
