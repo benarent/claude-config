@@ -5,7 +5,7 @@ description: Use when the user needs to scrape web data, find hard-to-access onl
 
 # Web Scraper
 
-High-performance web scraping orchestrator using Exa search API with Haiku subagent batching and browser fallback.
+High-performance web scraping orchestrator using Exa search API with Sonnet subagent batching and browser fallback.
 
 ## Prerequisites
 
@@ -27,14 +27,14 @@ Get key at: https://exa.ai
 │                  Opus (Orchestrator)                     │
 │  - Analyzes user request                                 │
 │  - Plans scraping strategy                               │
-│  - Batches targets to Haiku subagents                    │
+│  - Batches targets to Sonnet subagents                   │
 │  - Aggregates results into JSON                          │
 └─────────────────────────────────────────────────────────┘
                            │
             ┌──────────────┼──────────────┐
             ▼              ▼              ▼
      ┌──────────┐   ┌──────────┐   ┌──────────┐
-     │  Haiku   │   │  Haiku   │   │  Haiku   │
+     │ Sonnet   │   │ Sonnet   │   │ Sonnet   │
      │ Agent 1  │   │ Agent 2  │   │ Agent N  │
      │ (target) │   │ (target) │   │ (target) │
      └──────────┘   └──────────┘   └──────────┘
@@ -88,23 +88,23 @@ curl -X POST "https://api.exa.ai/contents" \
   }'
 ```
 
-### Step 3: Batch to Haiku Subagents
+### Step 3: Batch to Sonnet Subagents
 
-For multiple targets, spawn parallel Haiku agents:
+For multiple targets, spawn parallel Sonnet agents:
 
 ```
 Use the Task tool with:
 - subagent_type: "general-purpose"
-- model: "haiku"
+- model: "sonnet"
 - prompt: Include target URL, extraction schema, and instructions
 ```
 
 **Batching Strategy:**
-- Group 3-5 targets per Haiku agent
+- Group 3-5 targets per Sonnet agent
 - Launch agents in parallel using multiple Task calls
 - Each agent handles: fetch → parse → extract → return JSON
 
-**Haiku Agent Prompt Template:**
+**Sonnet Agent Prompt Template:**
 ```
 Scrape the following targets and extract data matching this schema:
 Schema: {json_schema}
@@ -194,13 +194,13 @@ ALWAYS return structured JSON. Ask user for schema if unclear:
 ## Cost Optimization
 
 - **Exa API**: ~$0.001/search, ~$0.003/content extraction
-- **Haiku subagents**: Cheap, fast, good for parsing
+- **Sonnet subagents**: Fast, good for parsing
 - **Browser**: Most expensive, use as fallback only
 
 Prioritize:
 1. Exa search + contents (fastest, cheapest)
 2. WebFetch direct (free but limited)
-3. Haiku + WebFetch batches (parallelism)
+3. Sonnet + WebFetch batches (parallelism)
 4. Browser (JS sites, anti-bot)
 
 ## Example Usage
@@ -210,7 +210,7 @@ Prioritize:
 **Response:**
 1. Exa search: "AI coding assistant pricing 2024"
 2. Get top 10 results with content
-3. Spawn 2 Haiku agents (5 URLs each)
+3. Spawn 2 Sonnet agents (5 URLs each)
 4. Extract: name, pricing tiers, features
 5. Return JSON array with pricing data
 
@@ -218,7 +218,7 @@ Prioritize:
 
 **Response:**
 1. Batch URLs into 10 groups of 5
-2. Launch 10 parallel Haiku agents
+2. Launch 10 parallel Sonnet agents
 3. Each agent: WebFetch → extract → JSON
 4. Browser fallback for failures
 5. Aggregate all results
