@@ -19,7 +19,7 @@ case "$1" in
     cp "$CLAUDE_DIR/CLAUDE.md" "$REPO_DIR/"
     cp "$CLAUDE_DIR/settings.json" "$REPO_DIR/"
     cp "$CLAUDE_DIR/statusline-command.sh" "$REPO_DIR/"
-    rsync -av --delete --exclude='.DS_Store' "$CLAUDE_DIR/skills/" "$REPO_DIR/skills/"
+    rsync -av --exclude='.DS_Store' "$CLAUDE_DIR/skills/" "$REPO_DIR/skills/"
     echo "Done. Review changes with: cd $REPO_DIR && git diff"
     ;;
   pull)
@@ -28,7 +28,7 @@ case "$1" in
     cp "$REPO_DIR/CLAUDE.md" "$CLAUDE_DIR/"
     cp "$REPO_DIR/settings.json" "$CLAUDE_DIR/"
     cp "$REPO_DIR/statusline-command.sh" "$CLAUDE_DIR/"
-    rsync -av --delete --exclude='.DS_Store' "$REPO_DIR/skills/" "$CLAUDE_DIR/skills/"
+    rsync -av --exclude='.DS_Store' "$REPO_DIR/skills/" "$CLAUDE_DIR/skills/"
     echo "Done. Config installed to $CLAUDE_DIR"
     ;;
   *)
